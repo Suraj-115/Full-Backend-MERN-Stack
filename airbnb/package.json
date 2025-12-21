@@ -4,14 +4,24 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "tailwind": "npx @tailwindcss/cli -i ./public/input.css -o ./public/output.css --watch",
+    "server": "nodemon app.js",
+    "start": "concurrently \"npm run server\" \"npm run tailwind\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "autoprefixer": "^10.4.23",
     "body-parser": "^2.2.1",
-    "express": "^5.2.1"
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }
