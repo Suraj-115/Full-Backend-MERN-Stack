@@ -4,10 +4,8 @@ const path = require("path");
 const express = require("express");
 const userRouter = express.Router();
 
-const {registeredHomes} = require("./hostRouter");
+const homeController = require("../controller/home");
 
-userRouter.get("/",(req,res,next)=>{
-  console.log("registered homes are:",registeredHomes);
-  res.render('home',{homes:registeredHomes});
-});
+userRouter.get("/",homeController.homepage);
+
 module.exports = userRouter;
