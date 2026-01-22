@@ -6,13 +6,17 @@ exports.homepage = (req,res,next)=>{
 }
 
 exports.gethome = (req,res,next)=>{
-  res.render("addhome");
+  Home.fetchAll( registeredHomes => res.render('home' , {registeredHomes : registeredHomes}) );
 };
 
 exports.posthome = (req,res,next)=>{
-  const {houseName, price, location, image} = req.body;
+  const {homeName, price, location, image} = req.body;
+  // Map homeName from form to houseName for the model
   const home = new Home(
-    houseName,price,location,image
+    homeName, // This will be stored as houseName in the model
+    price, 
+    location, 
+    image
   );
   home.save();
   const registeredHomes = Home.fetchAll();
