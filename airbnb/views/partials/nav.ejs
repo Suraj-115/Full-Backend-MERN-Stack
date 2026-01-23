@@ -1,4 +1,13 @@
 <nav class="bg-red-500 h-12 flex items-center justify-start px-4 md:px-8">
-    <a class="px-4 py-2 rounded-md text-white font-medium transition-all duration-200 <%= pageTitle === "Home" ? "bg-red-600 shadow-md" : "hover:bg-red-600 hover:shadow-sm" %>" href="/">Home</a>
+    <a class="px-4 py-2 rounded-md text-white font-medium transition-all duration-200 <%= pageTitle === "Index Page" ? "bg-red-600 shadow-md" : "hover:bg-red-600 hover:shadow-sm" %>" href="/">airbnb</a>
+    
+    <a class="px-4 py-2 rounded-md text-white font-medium transition-all duration-200 ml-2 <%= pageTitle === "Home" ? "bg-red-600 shadow-md" : "hover:bg-red-600 hover:shadow-sm" %>" href="/homeList">Homes-List</a>
+
+    <a class="px-4 py-2 rounded-md text-white font-medium transition-all duration-200 ml-2 <%= pageTitle === "Host Home List" ? "bg-red-600 shadow-md" : "hover:bg-red-600 hover:shadow-sm" %>" href="/host/hostHomeList">Host-List</a>
+    
+    <a class="px-4 py-2 rounded-md text-white font-medium transition-all duration-200 ml-2 <%= pageTitle === "Favourite List" ? "bg-red-600 shadow-md" : "hover:bg-red-600 hover:shadow-sm" %>" href="/favouriteList">Favourite List</a>
+
+    <a class="px-4 py-2 rounded-md text-white font-medium transition-all duration-200 ml-2 <%= pageTitle === "Bookings" ? "bg-red-600 shadow-md" : "hover:bg-red-600 hover:shadow-sm" %>" href="/bookings">Bookings</a>
+    
     <a class="px-4 py-2 rounded-md text-white font-medium transition-all duration-200 ml-2 <%= pageTitle === "Add Home" ? "bg-red-600 shadow-md" : "hover:bg-red-600 hover:shadow-sm" %>" href="/host/add-home">Add Home</a>
 </nav>

@@ -9,7 +9,7 @@ app.set("view engine","ejs");
 app.set("views","views");
 
 // Local modules
-const userRouter = require("./Routes/userRouter");
+const storeRouter = require("./Routes/storeRouter");
 const {hostRouter}= require("./Routes/hostRouter");
 const errorController = require("./controller/error");
 
@@ -22,7 +22,7 @@ app.use((req,res,next)=>{
 
 app.use(express.static(path.join(__dirname,"public")));
 
-app.use(userRouter);
+app.use(storeRouter);
 app.use("/host",hostRouter);
 
 app.use(errorController.pagenotfound);
