@@ -6,6 +6,21 @@ exports.homepage = (req,res,next)=>{
   });
 }
 
+exports.getHomeDetails = (req,res,next)=>{
+  const homeId = req.params.homeId;
+  console.log("HomeID:",homeId);
+  Home.findById(homeId,home => {
+    if(!home){
+      console.log("Home not found");
+      res.redirect("/homeList");
+    }
+    else{
+      // console.log("Home Details:",home);
+      res.render("./store/homeDetail",{home:home});
+    }
+  });
+}
+
 exports.indexPage = (req,res,next)=>{
   Home.fetchAll(registeredHomes => {
     res.render('./store/index',{registeredHomes:registeredHomes});
