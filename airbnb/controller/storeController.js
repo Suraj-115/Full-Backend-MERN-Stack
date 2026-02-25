@@ -1,3 +1,4 @@
+const Favourite = require("../models/favourite");
 const Home = require("../models/homes");
 
 exports.homepage = (req,res,next)=>{
@@ -7,7 +8,7 @@ exports.homepage = (req,res,next)=>{
 }
 
 exports.getHomeDetails = (req,res,next)=>{
-  const homeId = req.params.homeId;
+  const homeId = req.params.id;
   console.log("HomeID:",homeId);
   Home.findById(homeId,home => {
     if(!home){
@@ -34,11 +35,32 @@ exports.getBookings = (req,res,next)=>{
 }
 
 exports.getFavouriteList = (req,res,next)=>{
-  Home.fetchAll(registeredHomes => {
-    res.render('./store/favouriteList',{registeredHomes:registeredHomes});
+  Favourite.getFavourites(favourites => {
+    Home.fetchAll(registeredHomes => {
+    const HomesInFavourites = registeredHomes.filter(home => favourites.includes(home.id));
+      res.render('./store/favouriteList',{registeredHomes:HomesInFavourites});
+    });     
   });
 }
 
+exports.postAddToFavouriteList = (req,res,next)=>{
+  Favourite.addToFavourites(req.body.homeId,error=>{
+    if(error){
+      console.log("Error while adding favorites",error);
+    }
+    res.redirect("/favouriteList");
+  });
+}
+
+exports.postRemoveFromFavouriteList = (req,res,next)=>{
+  Favourite.removeFromFavourites(req.params.id,error=>{
+    if(error){
+      console.log("Error while removing favorites",error);
+    }
+    res.redirect("/favouriteList");
+  });
+ 
+}
 
 exports.pagenotfound = (req,res,next)=>{
   res.status(404).render("404");

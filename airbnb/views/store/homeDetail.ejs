@@ -1,166 +1,171 @@
 <%- include("../partials/head.ejs",{pageTitle:"Home Details"}) %>
-</head>
+  </head>
 
-<body>
-  <%- include("../partials/nav.ejs",{pageTitle:"Home Details"})%>
+  <body>
+    <%- include("../partials/nav.ejs",{pageTitle:"Home Details"})%>
 
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-    <!-- Hero Section -->
-    <div class="relative h-80 md:h-96 overflow-hidden bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500">
-      <!-- Fallback background if image fails -->
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500"></div>
+      <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
 
-      <!-- Try to load actual image -->
-      <% if (home && home.image) { %>
-        <img src="<%= home.image %>"
-             alt="<%= home.houseName %>"
-             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out opacity-90"
-             onerror="this.style.display='none'"
-             loading="lazy"/>
-      <% } %>
+        <!-- ================= HERO SECTION ================= -->
+        <div class="relative h-80 md:h-96 overflow-hidden bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500">
 
-      <!-- Overlay content -->
-      <div class="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-        <div class="text-center text-white">
-          <div class="w-24 h-24 mx-auto mb-4 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-            </svg>
-          </div>
-          <h1 class="text-4xl md:text-6xl font-bold mb-2 drop-shadow-lg">
-            <%= home ? home.houseName : 'Beautiful Home' %>
-          </h1>
-          <div class="flex items-center justify-center text-white/90">
-            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            <span class="text-xl font-medium"><%= home ? home.location : 'Amazing Location' %></span>
-          </div>
+          <!-- Fallback background -->
+          <div class="absolute inset-0 -z-10 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500"></div>
+
+          <!-- Image -->
+          <% if (home && home.image) { %>
+            <img src="<%= home.image %>" alt="<%= home.houseName %>"
+              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out"
+              onerror="this.style.display='none'" loading="lazy" />
+            <% } %>
+
+              <!-- Overlay + Content -->
+              <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+                <div class="text-center text-white px-4">
+
+                  <!-- Icon -->
+                  <div class="w-24 h-24 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
+                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2 7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2v10a1 1 0 01-1 1h-3" />
+                    </svg>
+                  </div>
+
+                  <!-- Title -->
+                  <h1 class="text-4xl md:text-6xl font-bold mb-2 drop-shadow-lg">
+                    <%= home ? home.houseName : 'Beautiful Home' %>
+                  </h1>
+
+                  <!-- Location -->
+                  <div class="flex items-center justify-center text-white/90">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span class="text-xl font-medium">
+                      <%= home ? home.location : 'Amazing Location' %>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
         </div>
-      </div>
-    </div>
-      <div class="absolute inset-0 bg-black bg-opacity-30"></div>
-      <div class="absolute bottom-6 left-6 md:left-12">
-        <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
-          <%= home.houseName %>
-        </h1>
-        <div class="flex items-center text-white/90">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-          </svg>
-          <span class="text-lg font-medium"><%= home.location %></span>
-        </div>
-      </div>
-    </div>
+        <!-- ================= END HERO ================= -->
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        <!-- Main Content -->
-        <div class="lg:col-span-2 space-y-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-          <!-- Property Description -->
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">About this place</h2>
-            <p class="text-gray-700 leading-relaxed">
-              <% if (home) { %>
-                Experience the comfort and luxury of <%= home.houseName %> located in <%= home.location %>.
-                This beautiful property offers everything you need for a memorable stay.
-              <% } else { %>
-                This beautiful property offers everything you need for a memorable stay.
-              <% } %>
-            </p>
-          </div>
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-6">
 
-          <!-- Key Features -->
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-xl font-semibold text-gray-900 mb-4">What this place offers</h3>
-            <div class="grid grid-cols-2 gap-4">
-              <div class="flex items-center space-x-3">
-                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                </svg>
-                <span class="text-sm text-gray-700">Entire home</span>
+              <!-- About -->
+              <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">About this place</h2>
+                <p class="text-gray-700 leading-relaxed">
+                  <% if (home) { %>
+                    Experience the comfort and luxury of <%= home.houseName %>
+                      located in <%= home.location %>.
+                        This beautiful property offers everything you need for a memorable stay.
+                        <% } else { %>
+                          This beautiful property offers everything you need for a memorable stay.
+                          <% } %>
+                </p>
               </div>
-              <div class="flex items-center space-x-3">
-                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                <span class="text-sm text-gray-700">Verified listing</span>
-              </div>
-              <div class="flex items-center space-x-3">
-                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-                <span class="text-sm text-gray-700">Fast wifi</span>
-              </div>
-              <div class="flex items-center space-x-3">
-                <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
-                <span class="text-sm text-gray-700">Self check-in</span>
+
+              <!-- Features -->
+              <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">What this place offers</h3>
+
+                <div class="grid grid-cols-2 gap-4">
+
+                  <div class="flex items-center space-x-3">
+                    <span class="text-sm text-gray-700">🏠 Entire home</span>
+                  </div>
+
+                  <div class="flex items-center space-x-3">
+                    <span class="text-sm text-gray-700">✅ Verified listing</span>
+                  </div>
+
+                  <div class="flex items-center space-x-3">
+                    <span class="text-sm text-gray-700">⚡ Fast wifi</span>
+                  </div>
+
+                  <div class="flex items-center space-x-3">
+                    <span class="text-sm text-gray-700">🔑 Self check-in</span>
+                  </div>
+
+                </div>
               </div>
             </div>
-          </div>
 
-        </div>
 
-        <!-- Simple Booking Card -->
-        <div class="lg:col-span-1">
-          <div class="sticky top-8">
-            <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-              <div class="flex items-center justify-between mb-4">
-                <div>
-                  <span class="text-2xl font-bold text-gray-900">$<%= home ? home.price : '100' %></span>
-                  <span class="text-gray-600 ml-1">per night</span>
-                </div>
-                <div class="flex items-center">
-                  <span class="text-sm text-gray-600">★ 4.8 (24)</span>
+            <!-- Booking Card -->
+            <div class="lg:col-span-1">
+              <div class="sticky top-8">
+
+                <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+
+                  <div class="flex items-center justify-between mb-4">
+                    <div>
+                      <span class="text-2xl font-bold text-gray-900">
+                        $<%= home ? home.price : '100' %>
+                      </span>
+                      <span class="text-gray-600 ml-1">per night</span>
+                    </div>
+                    <span class="text-sm text-gray-600">★ 4.8 (24)</span>
+                  </div>
+
+                  <div class="border border-gray-300 rounded-lg p-3 mb-4">
+                    <div class="text-sm font-medium">Select dates</div>
+                    <div class="text-sm text-gray-500">Choose your dates</div>
+                  </div>
+
+                  <div class="border border-gray-300 rounded-lg p-3 mb-4">
+                    <div class="text-sm font-medium">Guests</div>
+                    <div class="text-sm text-gray-500">1 guest</div>
+                  </div>
+
+                  <button
+                    class="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-semibold py-3 rounded-lg transition transform hover:scale-[1.02] shadow-md">
+                    Reserve Now
+                  </button>
+
+
+
+                  <% if (home) { %>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                      <div class="flex justify-between text-sm mb-1">
+                        <span>$<%= home.price %> × 3 nights</span>
+                        <span>$<%= home.price * 3 %></span>
+                      </div>
+
+                      <div class="flex justify-between text-sm mb-2">
+                        <span>Service fee</span>
+                        <span>$<%= Math.round(home.price * 3 * 0.1) %></span>
+                      </div>
+
+                      <div class="flex justify-between font-semibold pt-2 border-t">
+                        <span>Total</span>
+                        <span>
+                          $<%= home.price * 3 + Math.round(home.price * 3 * 0.1) %>
+                        </span>
+                      </div>
+                      <div class="mt-2">
+                        <%- include("../partials/favorites.ejs",{home:home})%>
+                      </div>
+                    </div>
+                    <% } %>
+
                 </div>
               </div>
-
-              <!-- Simple Date Picker -->
-              <div class="border border-gray-300 rounded-lg p-3 mb-4">
-                <div class="text-sm text-gray-700 font-medium mb-2">Select dates</div>
-                <div class="text-sm text-gray-500">Choose your dates</div>
-              </div>
-
-              <!-- Guests -->
-              <div class="border border-gray-300 rounded-lg p-3 mb-4">
-                <div class="text-sm text-gray-700 font-medium">Guests</div>
-                <div class="text-sm text-gray-500">1 guest</div>
-              </div>
-
-              <!-- Reserve Button -->
-              <button class="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md">
-                Reserve Now
-              </button>
-
-              <!-- Simple Price Summary -->
-              <% if (home) { %>
-              <div class="mt-4 pt-4 border-t border-gray-200">
-                <div class="flex justify-between text-sm mb-1">
-                  <span class="text-gray-600">$<%= home.price %> × 3 nights</span>
-                  <span class="text-gray-900">$<%= home.price * 3 %></span>
-                </div>
-                <div class="flex justify-between text-sm mb-2">
-                  <span class="text-gray-600">Service fee</span>
-                  <span class="text-gray-900">$<%= Math.round(home.price * 3 * 0.1) %></span>
-                </div>
-                <div class="flex justify-between font-semibold pt-2 border-t border-gray-200">
-                  <span>Total</span>
-                  <span>$<%= home.price * 3 + Math.round(home.price * 3 * 0.1) %></span>
-                </div>
-              </div>
-              <% } %>
             </div>
+
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</body>
+  </body>
 
-</html>
+  </html>

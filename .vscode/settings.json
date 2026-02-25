@@ -1,0 +1,8 @@
+{
+  "audioCues.enabled": "off",
+  "editor.accessibilitySupport": "off",
+  "accessibility.signals.terminalBell": {
+    "sound": "off"
+  },
+  "terminal.integrated.enableVisualBell": false
+}

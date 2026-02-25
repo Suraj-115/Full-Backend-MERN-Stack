@@ -16,7 +16,7 @@
                 <img src="<%= home.image %>" alt="<%= home.houseName %>" 
                   class="w-full h-full object-cover hover:scale-110 transition-transform duration-300"/>
               </div>
-              <div class="p-4 flex-grow flex flex-col">
+              <div class="p-4 grow flex flex-col">
                 <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2"><%= home.houseName %></h3>
                 <p class="text-gray-600 text-sm mb-2 flex items-center">
                   <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,10 +31,12 @@
                   </p>
                 </div>
                 <div class="flex justify-center space-x-3 mt-4">
-                  <button class="bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md">
-                    Book Now
+                  <form action="/favouriteList/delete/<%= home.id %>" method="POST">
+                    <button class="bg-linear-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md">
+                    Remove
                   </button>
-                  <a href="/homeList/<%=home.id%>" class="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md">
+                  </form>
+                  <a href="/homeList/<%=home.id%>" class="bg-linear-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md">
                     View Details
                   </a>
                 </div>

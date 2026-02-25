@@ -4,16 +4,20 @@ const path = require("path");
 const express = require("express");
 const storeRouter = express.Router();
 
-const homeController = require("../controller/storeController");
+const storeController = require("../controller/storeController");
 
-storeRouter.get("/",homeController.indexPage);
+storeRouter.get("/",storeController.indexPage);
 
-storeRouter.get("/bookings",homeController.getBookings);
+storeRouter.get("/bookings",storeController.getBookings);
 
-storeRouter.get("/favouriteList",homeController.getFavouriteList);
+storeRouter.get("/favouriteList",storeController.getFavouriteList);
 
-storeRouter.get("/homeList",homeController.homepage);
+storeRouter.post("/favouriteList",storeController.postAddToFavouriteList);
 
-storeRouter.get("/homeList/:homeId",homeController.getHomeDetails);
+storeRouter.post("/favouriteList/delete/:id",storeController.postRemoveFromFavouriteList);
+
+storeRouter.get("/homeList",storeController.homepage);
+
+storeRouter.get("/homeList/:id",storeController.getHomeDetails);
 
 module.exports = storeRouter;

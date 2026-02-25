@@ -2,6 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const rootDir = require('../utils/pathUtil');
+const Favourite = require("./favourite");
 //file path
 const homeDataPath = path.join(rootDir,'data','homes.json');
 
@@ -13,9 +14,18 @@ module.exports = class Home {
     this.image = image;
   }
   save(){
-    this.id=Math.random().toString();
+    
+    
     Home.fetchAll( registeredHomes => {
-      registeredHomes.push(this);
+      if(this.id){
+        registeredHomes = registeredHomes.map(h =>
+          h.id === this.id ? this : h
+        );
+      }
+      else{
+        this.id=Math.random().toString();
+        registeredHomes.push(this);
+      }
     fs.writeFile(homeDataPath,JSON.stringify(registeredHomes),err =>{
       console.log("File Writing Concluded", err);
     });
@@ -34,4 +44,15 @@ module.exports = class Home {
       callback(home);
     });
   }
+
+  static deleteById(homeId,callback){
+    this.fetchAll(registeredHomes=>{
+      registeredHomes = registeredHomes.filter(h => h.id !== homeId);
+      fs.writeFile(homeDataPath,JSON.stringify(registeredHomes),callback);
+    });
+    Favourite.removeFromFavourites(homeId,err=>{
+      if(err) console.log("Error removing from favourites:", err);
+    });
+  }
+  
 }
