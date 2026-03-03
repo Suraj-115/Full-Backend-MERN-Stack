@@ -14,22 +14,34 @@
                 <div
                   class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
                   <div class="relative h-48 w-full overflow-hidden">
-                    <img src="<%= home.image %>" alt="<%= home.houseName %>"
+                    <img src="<%= home.photoUrl %>" alt="<%= home.houseName %>"
                       class="w-full h-full object-cover hover:scale-110 transition-transform duration-300" />
                   </div>
                   <div class="p-4 flex-grow flex flex-col">
                     <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
                       <%= home.houseName %>
                     </h3>
-                    <p class="text-gray-600 text-sm mb-2 flex items-center">
-                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <%= home.location %>
-                    </p>
+                    <div class="flex items-center justify-between mb-2">
+                      <p class="text-gray-600 text-sm flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span><%= home.location %></span>
+                      </p>
+                      <% if (home.rating) { %>
+                        <p class="text-sm text-yellow-500 font-semibold flex items-center">
+                          ★ <span class="ml-1"><%= home.rating %></span>
+                        </p>
+                      <% } %>
+                    </div>
+                    <% if (home.description) { %>
+                      <p class="text-gray-600 text-sm mb-2 line-clamp-2">
+                        <%= home.description %>
+                      </p>
+                    <% } %>
                     <div class="mt-auto pt-2 border-t border-gray-200">
                       <p class="text-red-500 font-bold text-xl">
                         $<%= home.price %> <span class="text-gray-600 text-sm font-normal">/ night</span>
@@ -37,7 +49,7 @@
                     </div>
                     <div class="flex justify-center space-x-3 mt-4">
                       <%- include("../partials/favorites.ejs",{home:home})%>
-                        <a href="/homeList/<%=home.id%>" class="w-full text-center bg-linear-to-r from-blue-500 to-blue-600
+                        <a href="/homeList/<%=home.id%>" class="w-full text-center bg-gradient-to-r from-blue-500 to-blue-600
          hover:from-blue-600 hover:to-blue-700
          text-white font-semibold py-2.5 rounded-lg
          transition-all duration-200

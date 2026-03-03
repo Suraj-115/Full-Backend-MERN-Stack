@@ -4,168 +4,120 @@
   <body>
     <%- include("../partials/nav.ejs",{pageTitle:"Home Details"})%>
 
-      <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div class="min-h-screen bg-gray-100 flex items-center justify-center p-6">
 
-        <!-- ================= HERO SECTION ================= -->
-        <div class="relative h-80 md:h-96 overflow-hidden bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500">
+  <div class="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
 
-          <!-- Fallback background -->
-          <div class="absolute inset-0 -z-10 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500"></div>
+    <!-- Image -->
+      <img 
+        src="<%= home.photoUrl %>" 
+        alt="<%= home.houseName %>"
+        class="w-full h-72 object-cover"
+        onerror="this.style.display='none'"
+      />
+   
+    <div class="p-6 space-y-6">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-800">
+          <%= home ? home.houseName : "Beautiful Home" %>
+        </h1>
 
-          <!-- Image -->
-          <% if (home && home.image) { %>
-            <img src="<%= home.image %>" alt="<%= home.houseName %>"
-              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 ease-out"
-              onerror="this.style.display='none'" loading="lazy" />
-            <% } %>
+        <p class="text-gray-500 mt-1">
+          📍 <%= home ? home.location : "Great Location" %>
+        </p>
 
-              <!-- Overlay + Content -->
-              <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                <div class="text-center text-white px-4">
+        <% if (home && home.rating) { %>
+          <p class="text-yellow-500 font-semibold mt-1">
+            ★ <%= home.rating %> Rating
+          </p>
+        <% } %>
+      </div>
 
-                  <!-- Icon -->
-                  <div class="w-24 h-24 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
-                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M3 12l2-2 7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2v10a1 1 0 01-1 1h-3" />
-                    </svg>
-                  </div>
+      <!-- Description -->
+      <div>
+        <h2 class="text-lg font-semibold text-gray-700 mb-2">
+          About this place
+        </h2>
+        <p class="text-gray-600 leading-relaxed">
+          <% if (home && home.description) { %>
+            <%= home.description %>
+          <% } else { %>
+            This property offers comfort and convenience for your stay.
+          <% } %>
+        </p>
+      </div>
 
-                  <!-- Title -->
-                  <h1 class="text-4xl md:text-6xl font-bold mb-2 drop-shadow-lg">
-                    <%= home ? home.houseName : 'Beautiful Home' %>
-                  </h1>
+      <!-- Features -->
+      <div>
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">
+          What this place offers
+        </h3>
 
-                  <!-- Location -->
-                  <div class="flex items-center justify-center text-white/90">
-                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <span class="text-xl font-medium">
-                      <%= home ? home.location : 'Amazing Location' %>
-                    </span>
-                  </div>
-
-                </div>
-              </div>
-        </div>
-        <!-- ================= END HERO ================= -->
-
-
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-            <!-- Main Content -->
-            <div class="lg:col-span-2 space-y-6">
-
-              <!-- About -->
-              <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">About this place</h2>
-                <p class="text-gray-700 leading-relaxed">
-                  <% if (home) { %>
-                    Experience the comfort and luxury of <%= home.houseName %>
-                      located in <%= home.location %>.
-                        This beautiful property offers everything you need for a memorable stay.
-                        <% } else { %>
-                          This beautiful property offers everything you need for a memorable stay.
-                          <% } %>
-                </p>
-              </div>
-
-              <!-- Features -->
-              <div class="bg-white rounded-lg shadow-md p-6">
-                <h3 class="text-xl font-semibold text-gray-900 mb-4">What this place offers</h3>
-
-                <div class="grid grid-cols-2 gap-4">
-
-                  <div class="flex items-center space-x-3">
-                    <span class="text-sm text-gray-700">🏠 Entire home</span>
-                  </div>
-
-                  <div class="flex items-center space-x-3">
-                    <span class="text-sm text-gray-700">✅ Verified listing</span>
-                  </div>
-
-                  <div class="flex items-center space-x-3">
-                    <span class="text-sm text-gray-700">⚡ Fast wifi</span>
-                  </div>
-
-                  <div class="flex items-center space-x-3">
-                    <span class="text-sm text-gray-700">🔑 Self check-in</span>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-
-            <!-- Booking Card -->
-            <div class="lg:col-span-1">
-              <div class="sticky top-8">
-
-                <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-
-                  <div class="flex items-center justify-between mb-4">
-                    <div>
-                      <span class="text-2xl font-bold text-gray-900">
-                        $<%= home ? home.price : '100' %>
-                      </span>
-                      <span class="text-gray-600 ml-1">per night</span>
-                    </div>
-                    <span class="text-sm text-gray-600">★ 4.8 (24)</span>
-                  </div>
-
-                  <div class="border border-gray-300 rounded-lg p-3 mb-4">
-                    <div class="text-sm font-medium">Select dates</div>
-                    <div class="text-sm text-gray-500">Choose your dates</div>
-                  </div>
-
-                  <div class="border border-gray-300 rounded-lg p-3 mb-4">
-                    <div class="text-sm font-medium">Guests</div>
-                    <div class="text-sm text-gray-500">1 guest</div>
-                  </div>
-
-                  <button
-                    class="w-full bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-semibold py-3 rounded-lg transition transform hover:scale-[1.02] shadow-md">
-                    Reserve Now
-                  </button>
-
-
-
-                  <% if (home) { %>
-                    <div class="mt-4 pt-4 border-t border-gray-200">
-                      <div class="flex justify-between text-sm mb-1">
-                        <span>$<%= home.price %> × 3 nights</span>
-                        <span>$<%= home.price * 3 %></span>
-                      </div>
-
-                      <div class="flex justify-between text-sm mb-2">
-                        <span>Service fee</span>
-                        <span>$<%= Math.round(home.price * 3 * 0.1) %></span>
-                      </div>
-
-                      <div class="flex justify-between font-semibold pt-2 border-t">
-                        <span>Total</span>
-                        <span>
-                          $<%= home.price * 3 + Math.round(home.price * 3 * 0.1) %>
-                        </span>
-                      </div>
-                      <div class="mt-2">
-                        <%- include("../partials/favorites.ejs",{home:home})%>
-                      </div>
-                    </div>
-                    <% } %>
-
-                </div>
-              </div>
-            </div>
-
-          </div>
+        <div class="grid grid-cols-2 gap-2 text-gray-600 text-sm">
+          <span>🏠 Entire home</span>
+          <span>✅ Verified listing</span>
+          <span>⚡ Fast wifi</span>
+          <span>🔑 Self check-in</span>
         </div>
       </div>
+
+      <!-- Booking Section -->
+      <div class="border-t pt-4 space-y-3">
+
+        <div class="flex justify-between items-center">
+          <div>
+            <span class="text-2xl font-bold text-gray-800">
+              $<%= home ? home.price : 100 %>
+            </span>
+            <span class="text-gray-500"> / night</span>
+          </div>
+
+          <% if (home && home.rating) { %>
+            <span class="text-sm text-gray-500">
+              ★ <%= home.rating %>
+            </span>
+          <% } %>
+        </div>
+
+        <% if (home) { %>
+          <div class="text-sm text-gray-600 space-y-1">
+            <div class="flex justify-between">
+              <span>$<%= home.price %> × 3 nights</span>
+              <span>$<%= home.price * 3 %></span>
+            </div>
+
+            <div class="flex justify-between">
+              <span>Service fee</span>
+              <span>$<%= Math.round(home.price * 3 * 0.1) %></span>
+            </div>
+
+            <div class="flex justify-between font-semibold border-t pt-2">
+              <span>Total</span>
+              <span>
+                $<%= home.price * 3 + Math.round(home.price * 3 * 0.1) %>
+              </span>
+            </div>
+          </div>
+        <% } %>
+
+        <!-- Reserve Button -->
+        <button class="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition">
+          Reserve Now
+        </button>
+
+        <!-- Favorites -->
+        <% if (home) { %>
+          <div class="pt-2">
+            <%- include("../partials/favorites.ejs",{home:home})%>
+          </div>
+        <% } %>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>  
   </body>
 
   </html>

@@ -2,13 +2,14 @@ const Home = require("../models/homes");
 
 
 exports.gethome = (req,res,next)=>{
-  Home.fetchAll( registeredHomes => res.render('./host/editHome' , {registeredHomes : registeredHomes,editing:false}) );
+  Home.fetchAll().then( ([registeredHomes]) => res.render('./host/editHome' , {registeredHomes : registeredHomes,editing:false}) );
 };
 
 exports.getEditHome = (req,res,next)=>{
   const homeId = req.params.id;
   const editing = req.query.editing === "true";
-  Home.findById(homeId, home => {
+  Home.findById(homeId).then(([homes]) => {
+    const home = homes[0];
     if(!home){
       console.log("Home not found");
       return res.redirect("/host/hostHomeList");
@@ -22,33 +23,39 @@ exports.getEditHome = (req,res,next)=>{
 
 
 exports.getHostHomeList = (req,res,next)=>{
-  Home.fetchAll(registeredHomes => {
+  Home.fetchAll().then(([registeredHomes]) => {
     res.render('./host/hostHomeList',{registeredHomes:registeredHomes});
+  }).catch(err=>{
+    console.log("Error while fetching data from database",err);
   });
 }
 
 exports.posthome = (req,res,next)=>{
-  const {homeName, price, location, image} = req.body;
+  const {homeName, price, location, image,rating,description} = req.body;
   // Map homeName from form to houseName for the model
   const home = new Home(
-    homeName, // This will be stored as houseName in the model
+    homeName, 
     price,
     location,
-    image
+    rating,
+    image,
+    description
   );
   home.save();
   res.redirect("./hostHomeList");
 };
 
 exports.postEditHome = (req,res,next)=>{
-  const {homeName, price, location, image,id} = req.body;
+  const {homeName, price, location, image, rating, description, id} = req.body;
   const home = new Home(
     homeName, 
     price,
     location,
-    image
+    rating,
+    image,
+    description,
+    id
   );
-  home.id=id;
   home.save();
   res.redirect("./hostHomeList");
 };
@@ -56,11 +63,10 @@ exports.postEditHome = (req,res,next)=>{
 exports.postDeleteHome = (req,res,next)=>{
   const homeId = req.params.id;
   console.log(homeId);
-  Home.deleteById(homeId,err=>{
-    if(err){
-      console.log("Error deleting home",err);
-    }
+  Home.deleteById(homeId).then(result => {
     res.redirect("../hostHomeList");
+  }).catch(err => {
+    console.log("Error deleting home",err);
   }); 
 };
 

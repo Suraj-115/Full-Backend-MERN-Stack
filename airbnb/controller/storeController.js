@@ -2,41 +2,48 @@ const Favourite = require("../models/favourite");
 const Home = require("../models/homes");
 
 exports.homepage = (req,res,next)=>{
-  Home.fetchAll(registeredHomes => {
+  Home.fetchAll().then(([registeredHomes]) => {
     res.render('./store/homeList',{registeredHomes:registeredHomes});
+  }).catch(err=>{
+    console.log("Error while fetching data from database",err);
   });
 }
 
 exports.getHomeDetails = (req,res,next)=>{
   const homeId = req.params.id;
   console.log("HomeID:",homeId);
-  Home.findById(homeId,home => {
-    if(!home){
+  Home.findById(homeId).then(([rows]) => {
+    const home = rows && rows.length ? rows[0] : null;
+    if (!home) {
       console.log("Home not found");
-      res.redirect("/homeList");
+      return res.redirect("/homeList");
     }
-    else{
-      // console.log("Home Details:",home);
-      res.render("./store/homeDetail",{home:home});
-    }
+    res.render("./store/homeDetail",{home});
+  }).catch(err => {
+    console.log("Error while fetching home details", err);
+    res.redirect("/homeList");
   });
 }
 
 exports.indexPage = (req,res,next)=>{
-  Home.fetchAll(registeredHomes => {
+  Home.fetchAll().then(([registeredHomes]) => {
     res.render('./store/index',{registeredHomes:registeredHomes});
+  }).catch(err=>{
+    console.log("Error while fetching data from database",err);
   });
 }
 
 exports.getBookings = (req,res,next)=>{
-  Home.fetchAll(registeredHomes => {
+  Home.fetchAll().then(([registeredHomes]) => {
     res.render('./store/bookings',{registeredHomes:registeredHomes});
+  }).catch(err=>{
+    console.log("Error while fetching data from database",err);
   });
 }
 
 exports.getFavouriteList = (req,res,next)=>{
   Favourite.getFavourites(favourites => {
-    Home.fetchAll(registeredHomes => {
+    Home.fetchAll().then(([registeredHomes]) => {
     const HomesInFavourites = registeredHomes.filter(home => favourites.includes(home.id));
       res.render('./store/favouriteList',{registeredHomes:HomesInFavourites});
     });     

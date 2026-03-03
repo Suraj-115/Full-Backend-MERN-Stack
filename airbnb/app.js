@@ -12,6 +12,7 @@ app.set("views","views");
 const storeRouter = require("./Routes/storeRouter");
 const {hostRouter}= require("./Routes/hostRouter");
 const errorController = require("./controller/error");
+// const mongoConnect = require("./utils/databaseUtil");
 
 app.use(express.urlencoded({extended :true}));
 
@@ -27,7 +28,17 @@ app.use("/host",hostRouter);
 
 app.use(errorController.pagenotfound);
 
-const port = 3000;
-app.listen(port,()=>{
-  console.log(`Server is running on address http://localhost:${port}`);
-});
+const port = process.env.PORT || 3000;
+
+// mongoConnect()
+//   .then(() => {
+//     console.log("Connected to MongoDB Atlas");
+//     
+//   })
+//   .catch((err) => {
+//     console.error("Failed to connect to MongoDB Atlas", err);
+//   });
+
+app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
