@@ -1,31 +1,27 @@
-// Core modules
-const fs = require("fs");
-const path = require("path");
-const rootDir = require('../utils/pathUtil');
-//file path
-const favouriteDataPath = path.join(rootDir,'data','favourite.json');
+const {getDb} = require("../utils/databaseUtil");
 
 module.exports = class Favourite {
-  static getFavourites(callback){
-    fs.readFile(favouriteDataPath,'utf8',(err, data)=>{
-      if (err || !data || data.trim() === '') return callback([]);
-      try {
-        callback(JSON.parse(data));
-      } catch (e) {
-        callback([]);
+  constructor(houseId){
+    this.houseId = houseId;
+  }
+
+  save(){
+    const db = getDb();
+    return db.collection("favourites").findOne({houseId : this.houseId}).then(existingFav =>{
+      if(!existingFav){
+        return db.collection("favourites").insertOne(this);
       }
+      return Promise.resolve();
     });
   }
-  static addToFavourites(id,callback){
-    Favourite.getFavourites( favourites => {
-      if(!favourites.includes(id))favourites.push(id);
-    fs.writeFile(favouriteDataPath,JSON.stringify(favourites),callback);
-    });
-  };
-  static removeFromFavourites(id,callback){
-    Favourite.getFavourites( favourites => {
-      favourites = favourites.filter(favId => favId !== id);
-    fs.writeFile(favouriteDataPath,JSON.stringify(favourites,null,2),callback || (()=>{}));
-    });
+
+  static getFavourites(){
+    const db = getDb();
+    return db.collection('favourites').find().toArray();
+  }
+
+  static removeFromFavourites(delHomeId){
+    const db = getDb();
+    return db.collection("favourites").deleteOne({houseId: delHomeId});
   };
 }

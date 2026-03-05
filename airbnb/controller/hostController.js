@@ -1,15 +1,15 @@
+const Favourite = require("../models/favourite");
 const Home = require("../models/homes");
 
 
 exports.gethome = (req,res,next)=>{
-  Home.fetchAll().then( ([registeredHomes]) => res.render('./host/editHome' , {registeredHomes : registeredHomes,editing:false}) );
+  Home.fetchAll().then( (registeredHomes) => res.render('./host/editHome' , {registeredHomes : registeredHomes,editing:false}) );
 };
 
 exports.getEditHome = (req,res,next)=>{
   const homeId = req.params.id;
   const editing = req.query.editing === "true";
-  Home.findById(homeId).then(([homes]) => {
-    const home = homes[0];
+  Home.findById(homeId).then((home) => {
     if(!home){
       console.log("Home not found");
       return res.redirect("/host/hostHomeList");
@@ -23,7 +23,7 @@ exports.getEditHome = (req,res,next)=>{
 
 
 exports.getHostHomeList = (req,res,next)=>{
-  Home.fetchAll().then(([registeredHomes]) => {
+  Home.fetchAll().then((registeredHomes) => {
     res.render('./host/hostHomeList',{registeredHomes:registeredHomes});
   }).catch(err=>{
     console.log("Error while fetching data from database",err);
@@ -41,8 +41,13 @@ exports.posthome = (req,res,next)=>{
     image,
     description
   );
-  home.save();
-  res.redirect("./hostHomeList");
+  home.save().then(()=>{
+    console.log("Home saved successfully");
+    res.redirect("/host/hostHomeList");
+  }).catch(err => {
+    console.log("Error saving home", err);
+    res.redirect("/host/add-home");
+  });
 };
 
 exports.postEditHome = (req,res,next)=>{
@@ -56,17 +61,29 @@ exports.postEditHome = (req,res,next)=>{
     description,
     id
   );
-  home.save();
-  res.redirect("./hostHomeList");
+  home.save().then((result)=>{
+    console.log("Home updated successfully");
+    res.redirect("/host/hostHomeList");
+  }).catch(err => {
+    console.log("Error updating home", err);
+    res.redirect("/host/hostHomeList");
+  });
 };
 
 exports.postDeleteHome = (req,res,next)=>{
   const homeId = req.params.id;
   console.log(homeId);
-  Home.deleteById(homeId).then(result => {
-    res.redirect("../hostHomeList");
+  Home.deleteById(homeId).then(() => {
+    console.log("Home deleted successfully");
+    Favourite.removeFromFavourites(homeId).then(() => {
+      console.log("Home removed from favorites successfully");
+    }).catch(error => {
+      console.log("Error while removing from favorites",error);
+    });
   }).catch(err => {
     console.log("Error deleting home",err);
+  }).finally(() => {
+    res.redirect("/host/hostHomeList");
   }); 
 };
 
