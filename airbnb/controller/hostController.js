@@ -1,9 +1,8 @@
-const Favourite = require("../models/favourite");
 const Home = require("../models/homes");
-
+const Favourite = require("../models/favourite");
 
 exports.gethome = (req,res,next)=>{
-  Home.fetchAll().then( (registeredHomes) => res.render('./host/editHome' , {registeredHomes : registeredHomes,editing:false}) );
+  Home.find().then( (registeredHomes) => res.render('./host/editHome' , {registeredHomes : registeredHomes,editing:false}) );
 };
 
 exports.getEditHome = (req,res,next)=>{
@@ -23,7 +22,7 @@ exports.getEditHome = (req,res,next)=>{
 
 
 exports.getHostHomeList = (req,res,next)=>{
-  Home.fetchAll().then((registeredHomes) => {
+  Home.find().then((registeredHomes) => {
     res.render('./host/hostHomeList',{registeredHomes:registeredHomes});
   }).catch(err=>{
     console.log("Error while fetching data from database",err);
@@ -34,52 +33,44 @@ exports.posthome = (req,res,next)=>{
   const {homeName, price, location, image,rating,description} = req.body;
   // Map homeName from form to houseName for the model
   const home = new Home(
-    homeName, 
-    price,
-    location,
-    rating,
-    image,
-    description
+    {houseName:homeName, 
+    price: price,
+    location: location,
+    rating: rating,
+    photoUrl: image,
+    description: description}
   );
   home.save().then(()=>{
     console.log("Home saved successfully");
-    res.redirect("/host/hostHomeList");
-  }).catch(err => {
-    console.log("Error saving home", err);
-    res.redirect("/host/add-home");
   });
+  res.redirect("/host/hostHomeList");
 };
 
 exports.postEditHome = (req,res,next)=>{
   const {homeName, price, location, image, rating, description, id} = req.body;
-  const home = new Home(
-    homeName, 
-    price,
-    location,
-    rating,
-    image,
-    description,
-    id
-  );
-  home.save().then((result)=>{
-    console.log("Home updated successfully");
-    res.redirect("/host/hostHomeList");
+  Home.findById(id).then(home =>{
+    home.houseName = homeName;
+    home.price = price;
+    home.location = location;
+    home.photoUrl = image;
+    home.rating = rating;
+    home.description = description;
+    home.save().then(()=>{
+      console.log("Home updated successfully");
+    }).catch(err => {
+      console.log("Error while updating home",err);
+    });
   }).catch(err => {
-    console.log("Error updating home", err);
-    res.redirect("/host/hostHomeList");
+    console.log("Error while finding home for update",err);
   });
+  res.redirect("/host/hostHomeList"); 
 };
 
 exports.postDeleteHome = (req,res,next)=>{
   const homeId = req.params.id;
   console.log(homeId);
-  Home.deleteById(homeId).then(() => {
+  Home.findByIdAndDelete(homeId).then(() => {
     console.log("Home deleted successfully");
-    Favourite.removeFromFavourites(homeId).then(() => {
-      console.log("Home removed from favorites successfully");
-    }).catch(error => {
-      console.log("Error while removing from favorites",error);
-    });
   }).catch(err => {
     console.log("Error deleting home",err);
   }).finally(() => {

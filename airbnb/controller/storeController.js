@@ -1,8 +1,8 @@
-const Favourite = require("../models/favourite");
 const Home = require("../models/homes");
+const Favourite = require("../models/favourite");
 
 exports.homepage = (req,res,next)=>{
-  Home.fetchAll().then(registeredHomes => {
+  Home.find().then(registeredHomes => {
     res.render('./store/homeList',{registeredHomes:registeredHomes});
   }).catch(err=>{
     console.log("Error while fetching data from database",err);
@@ -25,7 +25,7 @@ exports.getHomeDetails = (req,res,next)=>{
 }
 
 exports.indexPage = (req,res,next)=>{
-  Home.fetchAll().then(registeredHomes => {
+  Home.find().then(registeredHomes => {
     res.render('./store/index',{registeredHomes:registeredHomes});
   }).catch(err=>{
     console.log("Error while fetching data from database",err);
@@ -33,7 +33,7 @@ exports.indexPage = (req,res,next)=>{
 }
 
 exports.getBookings = (req,res,next)=>{
-  Home.fetchAll().then(registeredHomes => {
+  Home.find().then(registeredHomes => {
     res.render('./store/bookings',{registeredHomes:registeredHomes});
   }).catch(err=>{
     console.log("Error while fetching data from database",err);
@@ -41,38 +41,27 @@ exports.getBookings = (req,res,next)=>{
 }
 
 exports.getFavouriteList = (req,res,next)=>{
-  Favourite.getFavourites()
-    .then(favourites => {
+  Favourite.find().populate("houseId").then((favourites) => {
       const favouriteIds = favourites.map(fav => fav.houseId);
-      return Home.fetchAll().then(registeredHomes => {
-        const HomesInFavourites = registeredHomes.filter(
-          home => favouriteIds.includes(String(home._id))
-        );
-        res.render("./store/favouriteList", { registeredHomes: HomesInFavourites });
+      res.render("./store/favouriteList", { registeredHomes: favouriteIds });
       });
-    })
-    .catch(err => {
-      console.log("Error while fetching favourites", err);
-      res.render("./store/favouriteList", { registeredHomes: [] });
-    });
 };
 
 exports.postAddToFavouriteList = (req,res,next)=>{
   const homeId = req.body.homeId;
-  const fav = new Favourite(homeId);
+  const fav = new Favourite({houseId: homeId});
   fav.save().then(() => {
     console.log("Home added to favorites successfully");
   }).catch(error => {
     console.log("Error while adding favorites",error);
   }).finally(() => {
     res.redirect("/homeList");
-  })
-  ;
+  });
 }
 
 exports.postRemoveFromFavouriteList = (req,res,next)=>{
   const homeId = req.params.id;
-  Favourite.removeFromFavourites(homeId).then(() => {
+  Favourite.findOneAndDelete({houseId: homeId}).then(() => {
     console.log("Home removed from favorites successfully");
   }).catch(error => {
     console.log("Error while removing from favorites",error);
