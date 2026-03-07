@@ -140,10 +140,17 @@ exports.postLogin = async (req, res, next) => {
   }
 
   req.session.isLoggedIn = true;
-  req.session.user = user;
-  await req.session.save();
-
-  res.redirect("/");
+  req.session.user = {
+  _id: user._id.toString(),
+  firstName: user.firstName,
+  lastName: user.lastName,
+  email: user.email,
+  userType: user.userType
+};
+  req.session.save((err) => {
+    if (err) console.log("Session not saved ", err);
+    res.redirect("/");
+  });
 }
 
 exports.postLogout = (req, res, next) => {
