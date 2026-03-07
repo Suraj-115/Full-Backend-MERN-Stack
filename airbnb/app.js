@@ -1,38 +1,65 @@
-// Core module
-const path = require("path");
+// Core Module
+const path = require('path');
 
-// External modules
-const express = require("express");
+// External Module
+const express = require('express');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const DB_PATH = "mongodb+srv://airbnb-clone:Gopal2008@airbnb.njdutq8.mongodb.net/?appName=airbnb";
+
+//Local Module
+const storeRouter = require("./Routes/storeRouter")
+const hostRouter = require("./Routes/hostRouter")
+const authRouter = require("./Routes/authRouter")
+const rootDir = require("./utils/pathUtil");
+const errorsController = require("./controllers/errors");
+const { default: mongoose } = require('mongoose');
+
 const app = express();
 
-app.set("view engine","ejs");
-app.set("views","views");
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 
-// Local modules
-const storeRouter = require("./Routes/storeRouter");
-const {hostRouter}= require("./Routes/hostRouter");
-const errorController = require("./controller/error");
-const {mongoConnect} = require("./utils/databaseUtil");
+const store = new MongoDBStore({
+  uri: DB_PATH,
+  collection: 'sessions'
+});
 
-app.use(express.urlencoded({extended :true}));
+app.use(express.urlencoded());
+app.use(session({
+  secret: "KnowledgeGate AI with Complete Coding",
+  resave: false,
+  saveUninitialized: true,
+  store
+}));
 
-app.use((req,res,next)=>{
-  console.log(req.url,req.method);
+app.use((req, res, next) => {
+  req.isLoggedIn = req.session.isLoggedIn
   next();
-});
+})
 
-app.use(express.static(path.join(__dirname,"public")));
-
+app.use(authRouter)
 app.use(storeRouter);
-app.use("/host",hostRouter);
-
-app.use(errorController.pagenotfound);
-
-const port = process.env.PORT || 3000;
-
-mongoConnect(() => {
-  app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-  });
+app.use("/host", (req, res, next) => {
+  if (req.isLoggedIn) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
 });
+app.use("/host", hostRouter);
 
+app.use(express.static(path.join(rootDir, 'public')))
+
+app.use(errorsController.pageNotFound);
+
+const PORT = 3003;
+
+mongoose.connect(DB_PATH).then(() => {
+  console.log('Connected to Mongo');
+  app.listen(PORT, () => {
+    console.log(`Server running on address http://localhost:${PORT}`);
+  });
+}).catch(err => {
+  console.log('Error while connecting to Mongo: ', err);
+});
