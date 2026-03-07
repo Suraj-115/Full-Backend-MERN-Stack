@@ -1,8 +1,13 @@
 const Home = require("../models/homes");
-const Favourite = require("../models/favourite");
 
 exports.gethome = (req,res,next)=>{
-  Home.find().then( (registeredHomes) => res.render('./host/editHome' , {registeredHomes : registeredHomes,editing:false}) );
+  Home.find().then( (registeredHomes) => res.render('./host/editHome' ,
+    {registeredHomes : registeredHomes, 
+      editing: false, 
+      isLoggedIn: req.session.isLoggedIn, 
+      user: req.session.user 
+    }) 
+  );
 };
 
 exports.getEditHome = (req,res,next)=>{
@@ -15,7 +20,12 @@ exports.getEditHome = (req,res,next)=>{
     }
     else{
       console.log("Editing mode:", home);
-      res.render('./host/editHome' , {home : home,editing:editing});
+      res.render('./host/editHome' , 
+        {
+          home : home,editing:editing,
+          isLoggedIn:req.session.isLoggedIn,
+          user: req.session.user 
+        });
     }
   });
 };
@@ -23,7 +33,12 @@ exports.getEditHome = (req,res,next)=>{
 
 exports.getHostHomeList = (req,res,next)=>{
   Home.find().then((registeredHomes) => {
-    res.render('./host/hostHomeList',{registeredHomes:registeredHomes});
+    res.render('./host/hostHomeList',
+      {
+        registeredHomes:registeredHomes,
+        isLoggedIn:req.session.isLoggedIn,
+        user: req.session.user
+      });
   }).catch(err=>{
     console.log("Error while fetching data from database",err);
   });

@@ -1,0 +1,56 @@
+<%- include("../partials/head.ejs",{pageTitle:"Sign Up"})%>
+</head>
+
+<body>
+  <%- include("../partials/nav.ejs",{
+    pageTitle:"Sign Up",
+    isLoggedIn: typeof isLoggedIn !== 'undefined' ? isLoggedIn : false,
+    user: typeof user !== 'undefined' ? user : null
+  })%>
+  <div class="min-h-screen flex items-center justify-center bg-gray-100 py-8">
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 max-w-md w-full mx-4">
+      <h2 class="text-gray-800 font-semibold text-lg mb-5 text-center">Sign up</h2>
+
+      <form action="/auth/signup" method="POST" class="space-y-4">
+        
+        <%- include("../partials/errors.ejs",{errors: typeof errors !== 'undefined' ? errors : []})%>
+        <div>
+          <label for="firstName" class="block text-sm text-gray-600 mb-1">First name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First name" value="<%= typeof oldInput !== 'undefined' ? oldInput.firstName : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"/>
+        </div>
+        <div>
+          <label for="lastName" class="block text-sm text-gray-600 mb-1">Last name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last name" value="<%= typeof oldInput !== 'undefined' ? oldInput.lastName : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"/>
+        </div>
+        <div>
+          <label for="email" class="block text-sm text-gray-600 mb-1">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" value="<%= typeof oldInput !== 'undefined' ? oldInput.email : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"/>
+        </div>
+        <div>
+          <label for="password" class="block text-sm text-gray-600 mb-1">Password</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" value="<%= typeof oldInput !== 'undefined' ? oldInput.password : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"/>
+        </div>
+        <div>
+          <label for="confirmPassword" class="block text-sm text-gray-600 mb-1">Confirm password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent" required/>
+        </div>
+        <div>
+          <label for="userType" class="block text-sm text-gray-600 mb-1">I am a</label>
+          <select id="userType" name="userType" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent">
+            <option value="guest">Guest</option>
+            <option value="host">Host</option>
+          </select>
+        </div>
+        <div class="flex items-start gap-2">
+          <input type="checkbox" id="termsAndConditions" name="termsAndConditions" class="mt-1 rounded border-gray-300 text-red-500 focus:ring-red-500" required/>
+          <label for="termsAndConditions" class="text-sm text-gray-600">I agree to the <a href="/terms" class="text-red-500 hover:underline">Terms and Conditions</a></label>
+        </div>
+        <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2.5 px-4 rounded-lg transition-colors">
+          Sign up
+        </button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

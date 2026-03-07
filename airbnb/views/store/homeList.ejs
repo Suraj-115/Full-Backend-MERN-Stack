@@ -2,7 +2,7 @@
   </head>
 
   <body>
-    <%- include("../partials/nav.ejs",{pageTitle:"Home"})%>
+    <%- include("../partials/nav.ejs",{pageTitle:"Home", isLoggedIn: typeof isLoggedIn !== 'undefined' ? isLoggedIn : false, user: typeof user !== 'undefined' ? user : null})%>
       <div class="min-h-screen bg-gray-100 py-8 px-4">
         <div class="max-w-7xl mx-auto">
           <h2 class="text-black font-bold text-2xl md:text-3xl mb-8 text-center">
