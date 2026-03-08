@@ -1,45 +1,92 @@
 <%- include('../partials/head') %>
-  </head>
-  <body>
-      <%- include('../partials/nav') %>
-      <main class="container mx-auto bg-white shadow-lg rounded-lg p-8 mt-10 max-w-6xl">
-          <h2 class="text-3xl text-red-500 font-bold text-center mb-6">
-              Details of <%= home.houseName %>
-          </h2>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div class="rounded-lg overflow-hidden">
-                  <img src="<%= home.photoUrl %>" alt="<%= home.name %>" class="w-full h-96 object-cover">
-              </div>
-              
-              <div class="space-y-6">
-                  <div class="border-b pb-4">
-                      <h3 class="text-2xl font-semibold mb-2">Description</h3>
-                      <p class="text-gray-600"><%= home.description %></p>
-                  </div>
+</head>
 
-                  <div class="border-b pb-4">
-                      <h3 class="text-2xl font-semibold mb-2">Location</h3>
-                      <p class="text-gray-600"><%= home.location %></p>
-                  </div>
-                  
-                  <div class="border-b pb-4">
-                      <h3 class="text-2xl font-semibold mb-2">Price</h3>
-                      <p class="text-green-600 text-xl font-bold">$<%= home.price %> / night</p>
-                  </div>
-                  
-                  <div class="border-b pb-4">
-                      <h3 class="text-2xl font-semibold mb-2">Rating</h3>
-                      <div class="flex items-center">
-                          <span class="text-yellow-400 text-xl">★</span>
-                          <span class="ml-2 text-lg"><%= home.rating %> / 5</span>
-                      </div>
-                  </div>
-                  <div class="mt-2">
-                    <%- include('../partials/favourite') %>
-                  </div>
-              </div>
-          </div>
-      </main>
-  </body>
+<body class="bg-gray-50">
+
+<%- include('../partials/nav') %>
+
+<main class="container mx-auto max-w-6xl px-6 py-10">
+
+  <!-- Title -->
+  <div class="mb-8">
+    <h2 class="text-3xl font-bold text-gray-800">
+      <%= home.houseName %>
+    </h2>
+    <p class="text-gray-500 mt-1">Comfortable stay in <%= home.location %></p>
+  </div>
+
+  <!-- Image -->
+  <div class="mb-10">
+    <img 
+      src="<%= home.photo %>" 
+      alt="<%= home.houseName %>" 
+      class="w-full h-[420px] object-cover rounded-xl shadow-md hover:scale-[1.01] transition"
+    >
+  </div>
+
+  <!-- Content Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+    <!-- LEFT CONTENT -->
+    <div class="md:col-span-2 space-y-8">
+
+      <div>
+        <h3 class="text-xl font-semibold mb-2 text-gray-800">
+          Description
+        </h3>
+        <p class="text-gray-600 leading-relaxed">
+          <%= home.description %>
+        </p>
+      </div>
+
+      <hr class="border-gray-200">
+
+      <div>
+        <h3 class="text-xl font-semibold mb-2 text-gray-800">
+          Location
+        </h3>
+        <p class="text-gray-600">
+          📍 <%= home.location %>
+        </p>
+      </div>
+
+      <hr class="border-gray-200">
+
+      <div>
+        <h3 class="text-xl font-semibold mb-2 text-gray-800">
+          Guest Rating
+        </h3>
+        <p class="text-yellow-500 text-lg font-semibold">
+          ★ <%= home.rating %> / 5
+        </p>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDE (PRICE + ACTION) -->
+    <div class="space-y-6">
+
+      <div class="border border-gray-200 rounded-lg p-6 shadow-sm">
+        <p class="text-2xl font-bold text-green-600">
+          $<%= home.price %>
+          <span class="text-gray-500 text-sm font-normal"> / night</span>
+        </p>
+
+        <div class="mt-6">
+          <%- include('../partials/favourites') %>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <a href="/rules/<%=home._id%>" class="">
+            Download House rules
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+</body>
 </html>
